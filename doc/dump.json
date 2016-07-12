@@ -1,0 +1,3167 @@
+[
+  {
+    "__docId__": 0,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/button/button.component.js",
+    "memberof": null,
+    "longname": "src/components/button/button.component.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Button component define\n */\n\nimport controller from './button';\nimport template from './template.html';\n\n'use strict';\n\n/**\n * @type {Object}\n * @property {String}   type        - binding symbol is @, 此类型针对的是样式, 比如选了primary class会出现 `bp-btn-primary`, 默认值是primary, 可选值[default, primary, danger]\n * @property {String}   size        - binding symbol is @, 按钮大小, 和bootstrap一样, 不填则是默认大小\n * @property {String}   htmlType    - binding symbol is @, 顾名思义, 代表的是原生html里的type值\n * @property {Boolean}  disabled    - binding symbol is <, 禁用状态\n * @property {String}   icon        - binding symbol is @, 按钮文字前方的icon名称, 详细见bootstrap\n * @property {Boolean}  click       - binding symbol is &, click 处理器\n */\nlet ButtonComponentDefine = {\n  template,\n  controller,\n  controllerAs: 'controller',\n  transclude: true,\n  bindings: {\n    type: '@',\n    size: '@',\n    htmlType: '@',\n    disabled: '<',\n    icon: '@',\n    click: '&'\n  }\n};\n\nexport default ButtonComponentDefine;"
+  },
+  {
+    "__docId__": 1,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "ButtonComponentDefine",
+    "memberof": "src/components/button/button.component.js",
+    "longname": "src/components/button/button.component.js~ButtonComponentDefine",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/button/button.component.js",
+    "importStyle": "ButtonComponentDefine",
+    "description": "",
+    "lineNumber": 19,
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "type",
+        "description": "binding symbol is @, 此类型针对的是样式, 比如选了primary class会出现 `bp-btn-primary`, 默认值是primary, 可选值[default, primary, danger]"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "size",
+        "description": "binding symbol is @, 按钮大小, 和bootstrap一样, 不填则是默认大小"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "htmlType",
+        "description": "binding symbol is @, 顾名思义, 代表的是原生html里的type值"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "disabled",
+        "description": "binding symbol is <, 禁用状态"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "icon",
+        "description": "binding symbol is @, 按钮文字前方的icon名称, 详细见bootstrap"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "click",
+        "description": "binding symbol is &, click 处理器"
+      }
+    ],
+    "type": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 2,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/button/button.js",
+    "memberof": null,
+    "longname": "src/components/button/button.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 7,
+    "content": "/**\n * Button component controller\n * @module src/components/button/\n * @author fengpeng\n */\n\nimport Component from '../common/component';\nimport classNames from 'classnames';\nimport ButtonState from '../../stateenum/button.state';\n\n'use strict';\n\n/**\n * Button component\n * \n * @export\n * @class Button\n * @extends {Component}\n */\nexport default class Button extends Component {\n  /**\n   * @override\n   * @protected\n   */\n  _initDefaultState() {\n    this._state = {\n      // the disabled is bindings property\n      [`${ButtonState.DISABLED}`]: this.disabled\n    };\n  }\n  /**\n   * @override\n   * @protected\n   */\n  _initDefaultValue() {\n    /**\n     * 确定模板的class属性值\n     * \n     * @type {String}\n     * @protected \n     */\n    this.className = '';\n    /**\n     * Component binding value, 用来确定模板中class的属性值 `bp-btn-{type}`, 默认值是 `primary`\n     * \n     * @type {String}\n     * @protected\n     */\n    this.type = this.type || 'primary';\n    /**\n     * Component binding value, html中的type属性.真\n     * \n     * @type {String}\n     * @protected \n     */\n    this.htmlType = this.htmlType || 'button';\n    /**\n     * Component binding value, 在按钮文字的前方添加icon\n     * \n     * @type {String}\n     * @protected \n     */\n    this.iconType = this.icon || '';\n  }\n  /**\n   * @override\n   * @protected\n   */\n  _createClassName() {\n    this.className = classNames({\n      'btn': true,\n      'bp-btn': true,\n      [`btn-${this.size}`]: !!this.size,\n      [`bp-btn-${this.type}`]: true,\n      'loading-btn': this._state[ButtonState.LOADING]\n    });\n  }\n  /**\n   * @override \n   * @protected\n   */\n  _launch() {}\n  /**\n   * 比超类多了loading状态\n   * @override \n   * @protected\n   */\n  _render() {\n    console.log('_render', this._state);\n    if (this._state[ButtonState.LOADING]) {\n      this.iconType = 'loading';\n      this._state[ButtonState.DISABLED] = true;\n    } else {\n      // not loading state, icon hide or rollback\n      this.iconType = this.icon;\n    }\n    // call super to update className\n    super._render();\n  }\n  /**\n   * 包装一个click处理器, 在模板里面用ngClick, 然后调用传进来的处理器\n   * \n   * @private \n   */\n  innerClick() {\n    this.click && typeof this.click === 'function' && this.click({button: this});\n  }\n  /**\n   * 这里主要是会有Disable值的外部变化\n   * \n   * @protected\n   * @param {Object} changeObj\n   */\n  $onChanges(changeObj) {\n    if (!this._init) return;\n    if (changeObj.hasOwnProperty(ButtonState.DISABLED)) {\n      this._state[ButtonState.DISABLED] = changeObj[ButtonState.DISABLED]['currentValue'];\n      this._render();\n    }\n  }\n}"
+  },
+  {
+    "__docId__": 3,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Button",
+    "memberof": "src/components/button/button.js",
+    "longname": "src/components/button/button.js~Button",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/button/button.js",
+    "importStyle": "Button",
+    "description": "Button component",
+    "lineNumber": 20,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": ""
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "Button"
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Component"
+    ]
+  },
+  {
+    "__docId__": 4,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultState",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#_initDefaultState",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 25,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 5,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_state",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#_state",
+    "access": null,
+    "description": null,
+    "lineNumber": 26,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 6,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultValue",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#_initDefaultValue",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 35,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 7,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "className",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#className",
+    "access": "protected",
+    "description": "确定模板的class属性值",
+    "lineNumber": 42,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 8,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "type",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#type",
+    "access": "protected",
+    "description": "Component binding value, 用来确定模板中class的属性值 `bp-btn-{type}`, 默认值是 `primary`",
+    "lineNumber": 49,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 9,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "htmlType",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#htmlType",
+    "access": "protected",
+    "description": "Component binding value, html中的type属性.真",
+    "lineNumber": 56,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 10,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "iconType",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#iconType",
+    "access": "protected",
+    "description": "Component binding value, 在按钮文字的前方添加icon",
+    "lineNumber": 63,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 11,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_createClassName",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#_createClassName",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 69,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 12,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "className",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#className",
+    "access": null,
+    "description": null,
+    "lineNumber": 70,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 13,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_launch",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#_launch",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 82,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 14,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_render",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#_render",
+    "access": "protected",
+    "description": "比超类多了loading状态",
+    "lineNumber": 88,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 15,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "iconType",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#iconType",
+    "access": null,
+    "description": null,
+    "lineNumber": 91,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 16,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "iconType",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#iconType",
+    "access": null,
+    "description": null,
+    "lineNumber": 95,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 17,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "innerClick",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#innerClick",
+    "access": "private",
+    "description": "包装一个click处理器, 在模板里面用ngClick, 然后调用传进来的处理器",
+    "lineNumber": 105,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 18,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "$onChanges",
+    "memberof": "src/components/button/button.js~Button",
+    "longname": "src/components/button/button.js~Button#$onChanges",
+    "access": "protected",
+    "description": "这里主要是会有Disable值的外部变化",
+    "lineNumber": 114,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "changeObj",
+        "description": ""
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 19,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/button/index.js",
+    "memberof": null,
+    "longname": "src/components/button/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Button component entry\n */\n\nimport angular from 'angular';\nimport component from './button.component'\nimport Icon from '../icon'\n\n'use strict';\n\nexport default angular.module('Button', [Icon.name])\n  .component('bpButton', component);"
+  },
+  {
+    "__docId__": 20,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/checkbox/checkbox.component.js",
+    "memberof": null,
+    "longname": "src/components/checkbox/checkbox.component.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * Checkbox component define\n * @author fengpeng\n */\n\nimport controller from './checkbox';\nimport template from './template.html';\nimport './checkbox.less';\n\n'use strict';\n\n/**\n * @type {Object}\n * @property {Boolean}    disabled       - binding symbol is <, 禁用状态\n * @property {Boolean}    checked        - binding symbol is =?, 是否被选中状态\n * @property {Boolean}    halfChecked    - binding symbol is =?, 是否是半选状态\n * @property {ANY}        trueValue      - binding symbol is @, like ng-true-value, 是对ng-true-value的封装\n * @property {ANY}        falseValue     - binding symbol is @, like ng-false-value, 是对ng-false-value的封装\n */\nlet CheckboxComponentDefine = {\n  template,\n  controller,\n  controllerAs: 'controller',\n  transclude: true,\n  bindings: {\n    disabled: '<',\n    checked: '=?checked',\n    halfChecked: '=?halfChecked',\n    trueValue: '@',\n    falseValue: '@'\n  }\n}\n\nexport default CheckboxComponentDefine;"
+  },
+  {
+    "__docId__": 21,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "CheckboxComponentDefine",
+    "memberof": "src/components/checkbox/checkbox.component.js",
+    "longname": "src/components/checkbox/checkbox.component.js~CheckboxComponentDefine",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/checkbox/checkbox.component.js",
+    "importStyle": "CheckboxComponentDefine",
+    "description": "",
+    "lineNumber": 20,
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "Boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "disabled",
+        "description": "binding symbol is <, 禁用状态"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "checked",
+        "description": "binding symbol is =?, 是否被选中状态"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "halfChecked",
+        "description": "binding symbol is =?, 是否是半选状态"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "ANY"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "trueValue",
+        "description": "binding symbol is @, like ng-true-value, 是对ng-true-value的封装"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "ANY"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "falseValue",
+        "description": "binding symbol is @, like ng-false-value, 是对ng-false-value的封装"
+      }
+    ],
+    "type": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 22,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/checkbox/checkbox.group.component.js",
+    "memberof": null,
+    "longname": "src/components/checkbox/checkbox.group.component.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * checkbox group component define\n * @author fengpeng\n */\n\nimport controller from './checkbox.group';\nimport template from './checkbox.group.template.html';\n\n/**\n * @type {Object}\n * @property {Boolean}          disabled        - binding symbol is <, 禁用状态, 在组上禁用则全部禁用, 实际上是对ng-disabled的包装\n * @property {Array.<Object>}   model           - binding symbol is =?, 数据源, \b由于是双向绑定的逻辑会去修改数据源上的checked属性\n * @property {Boolean}          inline          - binding symbol is @, 是否横着排\n */\nlet CheckboxGroupComponentDefine =  {\n  template,\n  controller,\n  controllerAs: 'controller',\n  bindings: {\n    disabled: '<',\n    model: '=?model',\n    inline: '@'\n  }\n}\n\nexport default CheckboxGroupComponentDefine;"
+  },
+  {
+    "__docId__": 23,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "CheckboxGroupComponentDefine",
+    "memberof": "src/components/checkbox/checkbox.group.component.js",
+    "longname": "src/components/checkbox/checkbox.group.component.js~CheckboxGroupComponentDefine",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/checkbox/checkbox.group.component.js",
+    "importStyle": "CheckboxGroupComponentDefine",
+    "description": "",
+    "lineNumber": 15,
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "Boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "disabled",
+        "description": "binding symbol is <, 禁用状态, 在组上禁用则全部禁用, 实际上是对ng-disabled的包装"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Array.<Object>"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "model",
+        "description": "binding symbol is =?, 数据源, \b由于是双向绑定的逻辑会去修改数据源上的checked属性"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "inline",
+        "description": "binding symbol is @, 是否横着排"
+      }
+    ],
+    "type": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 24,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/checkbox/checkbox.group.js",
+    "memberof": null,
+    "longname": "src/components/checkbox/checkbox.group.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * checkbox group component controller\n */\n\nimport angular from 'angular';\nimport classNames from 'classnames';\nimport Component from '../common/component';\n\n'use strict';\n\n/**\n * checkbox group\n * \n * @export\n * @class CheckboxGroup\n * @extends {Component}\n * @example \n    <bp-checkbox-group model=\"vm.groupDataList\"></bp-checkbox-group>\n    groupDataList = [\n      {label: '邢老师不要脸', checked: true},\n      {label: '老师不要脸'},\n      {label: '师不要脸'},\n      {label: '不要脸'},\n      {label: '要脸', disabled: true},\n      {label: '脸'}\n    ];\n * \n */\nexport default class CheckboxGroup extends Component {\n  /**\n   * @override \n   * @protected \n   */\n  _initDefaultValue() {\n    this.model = this.model && angular.isArray(this.model) ? this.model : [];\n  }\n  /**\n   * @override \n   * @protected \n   */\n  _createClassName() {\n    this.ulClassName = classNames({\n      'list-inline': this.inline\n    });\n  }\n  /**\n   * @override \n   * @protected \n   */\n  _launch() {\n  }\n}"
+  },
+  {
+    "__docId__": 25,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "CheckboxGroup",
+    "memberof": "src/components/checkbox/checkbox.group.js",
+    "longname": "src/components/checkbox/checkbox.group.js~CheckboxGroup",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/checkbox/checkbox.group.js",
+    "importStyle": "CheckboxGroup",
+    "description": "checkbox group",
+    "examples": [
+      "<bp-checkbox-group model=\"vm.groupDataList\"></bp-checkbox-group>\ngroupDataList = [\n{label: '邢老师不要脸', checked: true},\n{label: '老师不要脸'},\n{label: '师不要脸'},\n{label: '不要脸'},\n{label: '要脸', disabled: true},\n{label: '脸'}\n];"
+    ],
+    "lineNumber": 29,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": ""
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "CheckboxGroup"
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Component"
+    ]
+  },
+  {
+    "__docId__": 26,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultValue",
+    "memberof": "src/components/checkbox/checkbox.group.js~CheckboxGroup",
+    "longname": "src/components/checkbox/checkbox.group.js~CheckboxGroup#_initDefaultValue",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 34,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 27,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "model",
+    "memberof": "src/components/checkbox/checkbox.group.js~CheckboxGroup",
+    "longname": "src/components/checkbox/checkbox.group.js~CheckboxGroup#model",
+    "access": null,
+    "description": null,
+    "lineNumber": 35,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 28,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_createClassName",
+    "memberof": "src/components/checkbox/checkbox.group.js~CheckboxGroup",
+    "longname": "src/components/checkbox/checkbox.group.js~CheckboxGroup#_createClassName",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 41,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 29,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "ulClassName",
+    "memberof": "src/components/checkbox/checkbox.group.js~CheckboxGroup",
+    "longname": "src/components/checkbox/checkbox.group.js~CheckboxGroup#ulClassName",
+    "access": null,
+    "description": null,
+    "lineNumber": 42,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 30,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_launch",
+    "memberof": "src/components/checkbox/checkbox.group.js~CheckboxGroup",
+    "longname": "src/components/checkbox/checkbox.group.js~CheckboxGroup#_launch",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 50,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 31,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/checkbox/checkbox.js",
+    "memberof": null,
+    "longname": "src/components/checkbox/checkbox.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * Checkbox component controller\n * @author fengpeng\n */\n\nimport Component from '../common/component';\nimport classNames from 'classnames';\nimport CheckboxStates from '../../stateenum/checkbox.state';\n\n'use strict';\n\n/**\n * Checkbox component\n * 这里是对<input checkbox>的封装, 唯一需要说明的是半选状态, 是表现一个列表, 选中了某几项, 却又没有全选的状态\n * \n * @export\n * @class Checkbox\n * @extends {Component}\n * @example \n *  <bp-checkbox checked=\"true\">暴风雪</bp-checkbox>\n */\nexport default class Checkbox extends Component {\n  /**\n   * @override \n   * @protected \n   */\n  _initDefaultState() {\n    if (this.checked) {\n      this.halfChecked = false;\n    }\n    this._state = {\n      [`${CheckboxStates.DISABLED}`]: this.disabled,\n      [`${CheckboxStates.CHECKED}`]: this.checked,\n      [`${CheckboxStates.HALF_CHECKED}`]: this.halfChecked\n    };\n  }\n  /**\n   * @override\n   * @protected \n   */\n  _initDefaultValue() {\n    this.htmlID = this.htmlID || 'checkbox_' + Math.random().toString(36).substr(2, 9);\n    this.trueValue = this.trueValue ? this.trueValue : true;\n    this.falseValue = this.falseValue? this.falseValue : false;\n  }\n  /**\n   * @override \n   * @protected \n   */\n  _createClassName() {\n    this.className = classNames({\n      'disabled': this._state[CheckboxStates.DISABLED],\n      'checked': this._state[CheckboxStates.CHECKED],\n      'half-checked': this._state[CheckboxStates.HALF_CHECKED]\n    });\n  }\n  /**\n   * @override \n   * @protected \n   */\n  _launch() {}\n  /**\n   * 这里是因为改变值, 很有可能是binding过来的值, 并没有调用setter state.\n   * 所以需要监听一下, 然后调用一次\n   * \n   * @protected \n   * @param changeObj {Object}\n   */\n  $onChanges(changeObj) {\n    if (!this._init) return;\n    // checked 状态\n    if (changeObj.hasOwnProperty(CheckboxStates.CHECKED)) {\n      this.changeHandler();\n    }\n    // 半选\n    if (changeObj.hasOwnProperty(CheckboxStates.HALF_CHECKED)) {\n      const halfChecked = changeObj[CheckboxStates.HALF_CHECKED]['currentValue'];\n      this.state = {\n        [`${CheckboxStates.HALF_CHECKED}`]: halfChecked\n      };\n      if (halfChecked) {\n        this.state = {\n          [`${CheckboxStates.CHECKED}`]: false\n        };\n      }\n    }\n    // 禁用\n    if (changeObj.hasOwnProperty(CheckboxStates.DISABLED)) {\n      this.state = {\n        [`${CheckboxStates.DISABLED}`]: changeObj[CheckboxStates.DISABLED]['currentValue']\n      };\n    }\n    this._render();\n  }\n  /**\n   * 用户点击而改变状态的处理器, 是在模板里面的\n   * \n   * @private \n   */\n  changeHandler() {\n    if (this.checked == this.trueValue) {\n      this.state = {\n        [`${CheckboxStates.CHECKED}`]: true,\n        [`${CheckboxStates.HALF_CHECKED}`]: false\n      };\n    } else {\n      this.state = {\n        [`${CheckboxStates.CHECKED}`]: false\n      };\n    }\n  }\n}"
+  },
+  {
+    "__docId__": 32,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Checkbox",
+    "memberof": "src/components/checkbox/checkbox.js",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/checkbox/checkbox.js",
+    "importStyle": "Checkbox",
+    "description": "Checkbox component\n这里是对<input checkbox>的封装, 唯一需要说明的是半选状态, 是表现一个列表, 选中了某几项, 却又没有全选的状态",
+    "examples": [
+      " <bp-checkbox checked=\"true\">暴风雪</bp-checkbox>"
+    ],
+    "lineNumber": 22,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": ""
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "Checkbox"
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Component"
+    ]
+  },
+  {
+    "__docId__": 33,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultState",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#_initDefaultState",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 27,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 34,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "halfChecked",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#halfChecked",
+    "access": null,
+    "description": null,
+    "lineNumber": 29,
+    "undocument": true,
+    "type": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 35,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_state",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#_state",
+    "access": null,
+    "description": null,
+    "lineNumber": 31,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 36,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultValue",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#_initDefaultValue",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 41,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 37,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "htmlID",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#htmlID",
+    "access": null,
+    "description": null,
+    "lineNumber": 42,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 38,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "trueValue",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#trueValue",
+    "access": null,
+    "description": null,
+    "lineNumber": 43,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 39,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "falseValue",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#falseValue",
+    "access": null,
+    "description": null,
+    "lineNumber": 44,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 40,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_createClassName",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#_createClassName",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 50,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 41,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "className",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#className",
+    "access": null,
+    "description": null,
+    "lineNumber": 51,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 42,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_launch",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#_launch",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 61,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 43,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "$onChanges",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#$onChanges",
+    "access": "protected",
+    "description": "这里是因为改变值, 很有可能是binding过来的值, 并没有调用setter state.\n所以需要监听一下, 然后调用一次",
+    "lineNumber": 69,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "changeObj",
+        "description": "{Object}"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 44,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "state",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#state",
+    "access": null,
+    "description": null,
+    "lineNumber": 78,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 45,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "state",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#state",
+    "access": null,
+    "description": null,
+    "lineNumber": 82,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 46,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "state",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#state",
+    "access": null,
+    "description": null,
+    "lineNumber": 89,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 47,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "changeHandler",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#changeHandler",
+    "access": "private",
+    "description": "用户点击而改变状态的处理器, 是在模板里面的",
+    "lineNumber": 100,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 48,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "state",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#state",
+    "access": null,
+    "description": null,
+    "lineNumber": 102,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 49,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "state",
+    "memberof": "src/components/checkbox/checkbox.js~Checkbox",
+    "longname": "src/components/checkbox/checkbox.js~Checkbox#state",
+    "access": null,
+    "description": null,
+    "lineNumber": 107,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 50,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/checkbox/index.js",
+    "memberof": null,
+    "longname": "src/components/checkbox/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * Checkbox component entry\n * @author name\n */\n\nimport angular from 'angular';\nimport component from './checkbox.component';\nimport groupComponent from './checkbox.group.component';\n\n'use strict';\n\nexport default angular.module('Checkbox', [])\n  .component('bpCheckbox', component)\n  .component('bpCheckboxGroup', groupComponent);"
+  },
+  {
+    "__docId__": 51,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/common/component.js",
+    "memberof": null,
+    "longname": "src/components/common/component.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * abstract component\n * @author fengpeng\n */\n\nimport angular from 'angular';\nimport CommonState from '../../stateenum/common.state';\n\n'use strict';\n\n/**\n * 基类, 定义了模板和一系列基础操作\n * \n * @export\n * @abstract \n * @class Component\n * @implements {IComponentState}\n */\nexport default class Component {\n  /**\n   * @constructor\n   */\n  constructor() {\n    /**\n     * every component has a state object, \baccording to the state properties to determine how to display UI\n     * \n     * @type {Object}\n     * @protected \n     */\n    this._state = {};\n    /**\n     * 是否初始化完毕, 标识着是否执行完$onInit\n     * \n     * @protected\n     * @type {Boolean}\n     * @default false\n     * @see {@link $onInit}\n     */\n    this._init = false;\n  }\n  /**\n   * get component state\n   * \n   * @public \n   */ \n  get state() {\n    return this._state;\n  }\n  /**\n   * set component state\n   * \n   * @public\n   * @param state {Object} \n   */\n  set state(state) {\n    if (Object.prototype.toString.call(state) === '[object Object]') {\n      this._state = angular.merge(this._state, state);\n      this._render();\n    }\n  }\n  /**\n   * 构建模板, 在最后会将 _init设置为true\n   * \n   * @protected \n   * @final\n   * @see {@link _init}\n   */\n  $onInit() {\n    this._initDefaultState();\n    this._initDefaultValue();\n    this._render();\n    this._launch();\n    this._init = true;\n  }\n  /**\n   * 初始化默认值, 因为angular组件变量传递是在component定义决定的, 有些值可能没有传进来, 所以在这里确定一次\n   * \n   * @protected \n   */\n  _initDefaultValue() {\n    throw new Error('IllegalOperationError for _initDefaultValue method, you need override the method');\n  }\n  /**\n   * initialize state object\n   */\n  _initDefaultState() {\n    this._state = {\n      [`${CommonState.DISABLED}`]: false\n    };\n  }\n  /**\n   * 确定className, 处理过之后赋值到`this.className`属性, 并经由此属性填充到UI(html)的class属性里\n   * 每次render都会重新计算一次样式\n   * \n   * @protected \n   * @see {@link _render}\n   */\n  _createClassName() {\n    throw new Error('IllegalOperationError for _createClassName method, you need override the method');\n  }\n  /**\n   * 实现组件功能的细节部分\n   * \n   * @protected \n   */\n  _launch() {\n    throw new Error('IllegalOperationError for _launch method, you need override the method');\n  }\n  /**\n   * 针对不同的状态, 做UI变化, 如果子类有新状态那么override, 并super调用此方法\n   * \n   * @protected\n   */\n  _render() {\n    this._createClassName();\n  }\n}"
+  },
+  {
+    "__docId__": 52,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Component",
+    "memberof": "src/components/common/component.js",
+    "longname": "src/components/common/component.js~Component",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/common/component.js",
+    "importStyle": "Component",
+    "description": "基类, 定义了模板和一系列基础操作",
+    "lineNumber": 19,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": ""
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "Component"
+      }
+    ],
+    "abstract": true,
+    "interface": false,
+    "implements": [
+      "IComponentState"
+    ]
+  },
+  {
+    "__docId__": 53,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#constructor",
+    "access": null,
+    "description": "",
+    "lineNumber": 23,
+    "unknown": [
+      {
+        "tagName": "@constructor",
+        "tagValue": ""
+      }
+    ],
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 54,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_state",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#_state",
+    "access": "protected",
+    "description": "every component has a state object, \baccording to the state properties to determine how to display UI",
+    "lineNumber": 30,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 55,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_init",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#_init",
+    "access": "protected",
+    "description": "是否初始化完毕, 标识着是否执行完$onInit",
+    "see": [
+      "{@link $onInit}"
+    ],
+    "lineNumber": 39,
+    "unknown": [
+      {
+        "tagName": "@default",
+        "tagValue": "false"
+      }
+    ],
+    "type": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 56,
+    "kind": "get",
+    "static": false,
+    "variation": null,
+    "name": "state",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#state",
+    "access": "public",
+    "description": "get component state",
+    "lineNumber": 46,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 57,
+    "kind": "set",
+    "static": false,
+    "variation": null,
+    "name": "state",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#state",
+    "access": "public",
+    "description": "set component state",
+    "lineNumber": 55,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "state",
+        "description": "{Object}"
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 58,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_state",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#_state",
+    "access": null,
+    "description": null,
+    "lineNumber": 57,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 59,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "$onInit",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#$onInit",
+    "access": "protected",
+    "description": "构建模板, 在最后会将 _init设置为true",
+    "see": [
+      "{@link _init}"
+    ],
+    "lineNumber": 68,
+    "unknown": [
+      {
+        "tagName": "@final",
+        "tagValue": ""
+      }
+    ],
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 60,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_init",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#_init",
+    "access": null,
+    "description": null,
+    "lineNumber": 73,
+    "undocument": true,
+    "type": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 61,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultValue",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#_initDefaultValue",
+    "access": "protected",
+    "description": "初始化默认值, 因为angular组件变量传递是在component定义决定的, 有些值可能没有传进来, 所以在这里确定一次",
+    "lineNumber": 80,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 62,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultState",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#_initDefaultState",
+    "access": null,
+    "description": "initialize state object",
+    "lineNumber": 86,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 63,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_state",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#_state",
+    "access": null,
+    "description": null,
+    "lineNumber": 87,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 64,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_createClassName",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#_createClassName",
+    "access": "protected",
+    "description": "确定className, 处理过之后赋值到`this.className`属性, 并经由此属性填充到UI(html)的class属性里\n每次render都会重新计算一次样式",
+    "see": [
+      "{@link _render}"
+    ],
+    "lineNumber": 98,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 65,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_launch",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#_launch",
+    "access": "protected",
+    "description": "实现组件功能的细节部分",
+    "lineNumber": 106,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 66,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_render",
+    "memberof": "src/components/common/component.js~Component",
+    "longname": "src/components/common/component.js~Component#_render",
+    "access": "protected",
+    "description": "针对不同的状态, 做UI变化, 如果子类有新状态那么override, 并super调用此方法",
+    "lineNumber": 114,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 67,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/datepicker/datepicker.component.js",
+    "memberof": null,
+    "longname": "src/components/datepicker/datepicker.component.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Datepicker component define\n */\n\nimport template from './template.html';\nimport controller from './datepicker.js';\nimport './datepicker.less';\n\nlet datepickerComponent = {\n  restrict: 'E',\n  bindings: {\n    ngModel: '=model',\n    datepickerOptions: '<',\n    disabled: '<'\n  },\n  template,\n  controller,\n  controllerAs: 'vm'\n};\n\nexport default datepickerComponent;\n"
+  },
+  {
+    "__docId__": 68,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "datepickerComponent",
+    "memberof": "src/components/datepicker/datepicker.component.js",
+    "longname": "src/components/datepicker/datepicker.component.js~datepickerComponent",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/datepicker/datepicker.component.js",
+    "importStyle": "datepickerComponent",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 69,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/datepicker/datepicker.js",
+    "memberof": null,
+    "longname": "src/components/datepicker/datepicker.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 4,
+    "content": "/**\n * Datepicker\n */\nimport $ from 'jquery'\nimport Component from '../common/component';\n\n\n'use strict';\n\n/**\n * Datepicker component\n *\n * @export\n * @class Datepicker\n * @extends {Component}\n */\nexport default class Datepicker extends Component {\n  constructor($element, $scope) {\n    'ngInject'\n    super();\n    this.$element = $element;\n    this.$scope = $scope;\n  }\n\n  /**\n   * @override\n   */\n  _initDefaultValue() {\n    let ID = function () {\n      // Math.random should be unique because of its seeding algorithm.\n      // Convert it to base 36 (numbers + letters), and grab the first 9 characters\n      // after the decimal.\n      return '_' + Math.random().toString(36).substr(2, 9);\n    };\n    this.id = ID();\n    const DEFAULTS = {\n      showWeeks: false,\n      formatDayTitle: 'yyyy MMMM',\n      initDate: new Date()\n    };\n    let dateOptions = Object.assign({}, DEFAULTS, this.datepickerOptions);\n    let timeOptions = {};\n    timeOptions.max = dateOptions.maxDate;\n    timeOptions.min = dateOptions.minDate;\n    timeOptions.minuteStep = dateOptions.minuteStep ? dateOptions.minuteStep : 1;\n    delete dateOptions.minuteStep;\n    timeOptions.secondStep = dateOptions.secondStep ? dateOptions.secondStep : 1;\n    timeOptions.showSeconds = dateOptions.hasOwnProperty('showSeconds') ? dateOptions.showSeconds : true;\n    this.viewFormat = dateOptions.viewFormat;\n    delete dateOptions.viewFormat;\n    this.modelFormat = dateOptions.modelFormat;\n    delete dateOptions.modelFormat;\n\n    this.dateOptions = dateOptions;\n    this.timeOptions = timeOptions;\n  }\n\n  /**\n   * @override\n   */\n  _createClassName() {\n  }\n\n  /**\n   * @override\n   */\n  _launch() {\n    $('body').click(e => {\n      if ($(e.target).has('.dropdown-toggle').length) {\n        $(e.target).has(this.$element).length ? (this.isOpen = false) : (this.isOpen = true);\n        this.$scope.$digest();\n      }\n    });\n  }\n}\n"
+  },
+  {
+    "__docId__": 70,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Datepicker",
+    "memberof": "src/components/datepicker/datepicker.js",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/datepicker/datepicker.js",
+    "importStyle": "Datepicker",
+    "description": "Datepicker component",
+    "lineNumber": 17,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": ""
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "Datepicker"
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Component"
+    ]
+  },
+  {
+    "__docId__": 71,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "src/components/datepicker/datepicker.js~Datepicker",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 18,
+    "undocument": true,
+    "params": [
+      {
+        "name": "$element",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "$scope",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 72,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "$element",
+    "memberof": "src/components/datepicker/datepicker.js~Datepicker",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker#$element",
+    "access": null,
+    "description": null,
+    "lineNumber": 21,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 73,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "$scope",
+    "memberof": "src/components/datepicker/datepicker.js~Datepicker",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker#$scope",
+    "access": null,
+    "description": null,
+    "lineNumber": 22,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 74,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultValue",
+    "memberof": "src/components/datepicker/datepicker.js~Datepicker",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker#_initDefaultValue",
+    "access": null,
+    "description": "",
+    "lineNumber": 28,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 75,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "id",
+    "memberof": "src/components/datepicker/datepicker.js~Datepicker",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker#id",
+    "access": null,
+    "description": null,
+    "lineNumber": 35,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 76,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "viewFormat",
+    "memberof": "src/components/datepicker/datepicker.js~Datepicker",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker#viewFormat",
+    "access": null,
+    "description": null,
+    "lineNumber": 49,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 77,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "modelFormat",
+    "memberof": "src/components/datepicker/datepicker.js~Datepicker",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker#modelFormat",
+    "access": null,
+    "description": null,
+    "lineNumber": 51,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 78,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "dateOptions",
+    "memberof": "src/components/datepicker/datepicker.js~Datepicker",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker#dateOptions",
+    "access": null,
+    "description": null,
+    "lineNumber": 54,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 79,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "timeOptions",
+    "memberof": "src/components/datepicker/datepicker.js~Datepicker",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker#timeOptions",
+    "access": null,
+    "description": null,
+    "lineNumber": 55,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 80,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_createClassName",
+    "memberof": "src/components/datepicker/datepicker.js~Datepicker",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker#_createClassName",
+    "access": null,
+    "description": "",
+    "lineNumber": 61,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 81,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_launch",
+    "memberof": "src/components/datepicker/datepicker.js~Datepicker",
+    "longname": "src/components/datepicker/datepicker.js~Datepicker#_launch",
+    "access": null,
+    "description": "",
+    "lineNumber": 67,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 82,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/datepicker/index.js",
+    "memberof": null,
+    "longname": "src/components/datepicker/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * Datepicker component entry\n * @author name\n */\n\nimport component from './datepicker.component';\n\n'use strict';\n\nexport default angular.module('Datepicker', [])\n  .component('bpDatepicker', component);\n"
+  },
+  {
+    "__docId__": 83,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/icon/icon.component.js",
+    "memberof": null,
+    "longname": "src/components/icon/icon.component.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Icon component define\n */\n\nimport controller from './icon';\nimport template from './template.html';\n\n'use strict';\n\n/**\n * @type {Object}\n * @property {String} type  - binding symbol <, 类型, 也直接决定了渲染成哪个图标\n */\nlet IconComponentDefine = {\n  template,\n  controller,\n  controllerAs: 'controller',\n  bindings: {\n    type: '<'\n  }\n}\n\nexport default IconComponentDefine;"
+  },
+  {
+    "__docId__": 84,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "IconComponentDefine",
+    "memberof": "src/components/icon/icon.component.js",
+    "longname": "src/components/icon/icon.component.js~IconComponentDefine",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/icon/icon.component.js",
+    "importStyle": "IconComponentDefine",
+    "description": "",
+    "lineNumber": 14,
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "type",
+        "description": "binding symbol <, 类型, 也直接决定了渲染成哪个图标"
+      }
+    ],
+    "type": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 85,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/icon/icon.js",
+    "memberof": null,
+    "longname": "src/components/icon/icon.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * Icon\n * @author fengpeng\n */\n\nimport Component from '../common/component';\nimport classNames from 'classnames';\n\n'use strict';\n\n/**\n * Icon component\n * \n * @export\n * @class Icon\n * @extends {Component}\n */\nexport default class Icon extends Component {\n  /**\n   * @override \n   * @protected \n   */\n  _initDefaultValue() {}\n  /**\n   * @override \n   * @protected \n   */\n  _createClassName() {\n    // todo: 暂时还没有loading的图标, 有了这个逻辑就可以干掉了\n    let iconType = this.type === 'loading' ? 'repeat' : this.type;\n\n    this.className = classNames({\n      'bp-icon': true,\n      'glyphicon': true,\n      [`glyphicon-${iconType}`]: !!this.type\n    });\n  }\n  /**\n   * @override \n   * @protected \n   */\n  _launch() {}\n  /**\n   * 主要是因为type变了之后要重新生成class\n   * \n   * @param {Object} changeObj bindings object\n   */\n  $onChanges(changeObj) {\n    console.log(changeObj);\n    if (changeObj.hasOwnProperty('type')) {\n      this._createClassName();\n    } \n  }\n}"
+  },
+  {
+    "__docId__": 86,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Icon",
+    "memberof": "src/components/icon/icon.js",
+    "longname": "src/components/icon/icon.js~Icon",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/icon/icon.js",
+    "importStyle": "Icon",
+    "description": "Icon component",
+    "lineNumber": 18,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": ""
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "Icon"
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Component"
+    ]
+  },
+  {
+    "__docId__": 87,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultValue",
+    "memberof": "src/components/icon/icon.js~Icon",
+    "longname": "src/components/icon/icon.js~Icon#_initDefaultValue",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 23,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 88,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_createClassName",
+    "memberof": "src/components/icon/icon.js~Icon",
+    "longname": "src/components/icon/icon.js~Icon#_createClassName",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 28,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 89,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "className",
+    "memberof": "src/components/icon/icon.js~Icon",
+    "longname": "src/components/icon/icon.js~Icon#className",
+    "access": null,
+    "description": null,
+    "lineNumber": 32,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 90,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_launch",
+    "memberof": "src/components/icon/icon.js~Icon",
+    "longname": "src/components/icon/icon.js~Icon#_launch",
+    "access": "protected",
+    "description": "",
+    "lineNumber": 42,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 91,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "$onChanges",
+    "memberof": "src/components/icon/icon.js~Icon",
+    "longname": "src/components/icon/icon.js~Icon#$onChanges",
+    "access": null,
+    "description": "主要是因为type变了之后要重新生成class",
+    "lineNumber": 48,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "changeObj",
+        "description": "bindings object"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 92,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/icon/index.js",
+    "memberof": null,
+    "longname": "src/components/icon/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * Icon component entry\n * @author name\n */\n\nimport angular from 'angular';\nimport component from './icon.component';\n\n'use strict';\n\nexport default angular.module('Icon', [])\n  .component('bpIcon', component);"
+  },
+  {
+    "__docId__": 93,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/radio/index.js",
+    "memberof": null,
+    "longname": "src/components/radio/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * Radio component entry\n * @author name\n */\n\nimport angular from 'angular';\nimport component from './radio.component';\n\n'use strict';\n\nexport default angular.module('Radio', [])\n  .component('bpRadio', component);"
+  },
+  {
+    "__docId__": 94,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/radio/radio.component.js",
+    "memberof": null,
+    "longname": "src/components/radio/radio.component.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Radio component define\n */\n\nimport controller from './radio';\nimport template from './template.html';\nimport './radio.less';\n\n'use strict';\n\nlet componentDefine = {\n  template,\n  controller,\n  controllerAs: 'controller',\n  transclude: true,\n  bindings: {\n    /**\n     * 是否被禁用\n     *\n     * @type {Boolean}\n     */\n    disabled: '<',\n\n    /**\n     * 选中后的值\n     *\n     * @type {String}\n     */\n    value: '@',\n\n    /**\n     * model\n     * @type {String}\n     */\n    model: '=?model',\n\n    /**\n     *因为value只能提供String  复杂结构数据类型使用 complex指令\n     * @type {anyObject}\n     */\n    complex: '=?complex'\n  }\n};\n\nexport default componentDefine;"
+  },
+  {
+    "__docId__": 95,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "componentDefine",
+    "memberof": "src/components/radio/radio.component.js",
+    "longname": "src/components/radio/radio.component.js~componentDefine",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/radio/radio.component.js",
+    "importStyle": "componentDefine",
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 96,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/radio/radio.js",
+    "memberof": null,
+    "longname": "src/components/radio/radio.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Radio\n */\n\nimport Component from '../common/component';\nimport classNames from 'classnames';\nimport RadioStates from '../../stateenum/radio.state';\n\n'use strict';\n\n/**\n * Radio component\n * \n * @export\n * @class Radio\n * @extends {Component}\n */\nexport default class Radio extends Component {\n\n  /**\n   * 默认状态\n   */\n  _initDefaultState() {\n    this._state = {\n      [`${RadioStates.DISABLED}`]: this.disabled\n    };\n  }\n\n  /**\n   * 默认值\n   * @override \n   */\n  _initDefaultValue() {\n    this.htmlID = this.htmlID || 'radio_' + Math.random().toString(36).substr(2, 9);\n  }\n\n  /**\n   * 样式集合\n   * @override\n   */\n  _createClassName() {\n    this.className = classNames({\n      'disabled': this._state[RadioStates.DISABLED]\n    });\n  }\n\n  /**\n   * @override\n   */\n  _launch() {}\n\n  /**\n   * radio状态 是否被选中\n   *因为初始值 model value complex都为undefined\n   * 加了判断是为了规避初始不设置任何值情况为选中的状态\n   */\n  isChecked() {\n    if(this.model && (this.value || this.complex)) {\n      if (this.model === this.value || this.model === this.complex) {\n        return true;\n      }\n    }\n    return false;\n  }\n\n}"
+  },
+  {
+    "__docId__": 97,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Radio",
+    "memberof": "src/components/radio/radio.js",
+    "longname": "src/components/radio/radio.js~Radio",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/radio/radio.js",
+    "importStyle": "Radio",
+    "description": "Radio component",
+    "lineNumber": 18,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": ""
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "Radio"
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Component"
+    ]
+  },
+  {
+    "__docId__": 98,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultState",
+    "memberof": "src/components/radio/radio.js~Radio",
+    "longname": "src/components/radio/radio.js~Radio#_initDefaultState",
+    "access": null,
+    "description": "默认状态",
+    "lineNumber": 23,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 99,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_state",
+    "memberof": "src/components/radio/radio.js~Radio",
+    "longname": "src/components/radio/radio.js~Radio#_state",
+    "access": null,
+    "description": null,
+    "lineNumber": 24,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 100,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultValue",
+    "memberof": "src/components/radio/radio.js~Radio",
+    "longname": "src/components/radio/radio.js~Radio#_initDefaultValue",
+    "access": null,
+    "description": "默认值",
+    "lineNumber": 33,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 101,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "htmlID",
+    "memberof": "src/components/radio/radio.js~Radio",
+    "longname": "src/components/radio/radio.js~Radio#htmlID",
+    "access": null,
+    "description": null,
+    "lineNumber": 34,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 102,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_createClassName",
+    "memberof": "src/components/radio/radio.js~Radio",
+    "longname": "src/components/radio/radio.js~Radio#_createClassName",
+    "access": null,
+    "description": "样式集合",
+    "lineNumber": 41,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 103,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "className",
+    "memberof": "src/components/radio/radio.js~Radio",
+    "longname": "src/components/radio/radio.js~Radio#className",
+    "access": null,
+    "description": null,
+    "lineNumber": 42,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 104,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_launch",
+    "memberof": "src/components/radio/radio.js~Radio",
+    "longname": "src/components/radio/radio.js~Radio#_launch",
+    "access": null,
+    "description": "",
+    "lineNumber": 50,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 105,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "isChecked",
+    "memberof": "src/components/radio/radio.js~Radio",
+    "longname": "src/components/radio/radio.js~Radio#isChecked",
+    "access": null,
+    "description": "radio状态 是否被选中\n因为初始值 model value complex都为undefined\n加了判断是为了规避初始不设置任何值情况为选中的状态",
+    "lineNumber": 57,
+    "params": [],
+    "return": {
+      "types": [
+        "boolean"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 106,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/radioGroup/index.js",
+    "memberof": null,
+    "longname": "src/components/radioGroup/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * Radio component entry\n * @author name\n */\n\nimport angular from 'angular';\nimport component from './radio.group.component';\n\n'use strict';\n\nexport default angular.module('RadioGroup', [])\n  .component('bpRadioGroup', component);"
+  },
+  {
+    "__docId__": 107,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/radioGroup/radio.group.component.js",
+    "memberof": null,
+    "longname": "src/components/radioGroup/radio.group.component.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Radio component define\n */\n\nimport controller from './radio.group';\nimport template from './template.html';\nimport './radio.group.less';\n\n'use strict';\n\nlet componentDefine = {\n  template,\n  controller,\n  controllerAs: 'controller',\n  transclude: true,\n  bindings: {\n    /**\n     * 是否被禁用\n     * @type {Boolean}\n     */\n    disabled: '<',\n\n    /**\n     * model\n     * @type {String}\n     */\n    model: '=?model',\n\n    /**\n     * list\n     * @type {String}\n     */\n    list: '=?list',\n\n    /**\n     * Is display li to inline\n     *\n     * @type {Boolean}\n     */\n    inline: '=?inline'\n\n  }\n};\n\nexport default componentDefine;"
+  },
+  {
+    "__docId__": 108,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "componentDefine",
+    "memberof": "src/components/radioGroup/radio.group.component.js",
+    "longname": "src/components/radioGroup/radio.group.component.js~componentDefine",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/radioGroup/radio.group.component.js",
+    "importStyle": "componentDefine",
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 109,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/radioGroup/radio.group.js",
+    "memberof": null,
+    "longname": "src/components/radioGroup/radio.group.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * RadioGroup\n */\n\nimport Component from '../common/component';\nimport classNames from 'classnames';\n\n'use strict';\n\n/**\n * RadioGroup component\n * \n * @export\n * @class RadioGroup\n * @extends {Component}\n */\nexport default class RadioGroup extends Component {\n\n  /**\n   * @override\n   */\n  _initDefaultValue() {\n    this.list = this.list && angular.isArray(this.list) ? this.list : [];\n  }\n  _createClassName() {\n  }\n  _launch() {\n  }\n\n}"
+  },
+  {
+    "__docId__": 110,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "RadioGroup",
+    "memberof": "src/components/radioGroup/radio.group.js",
+    "longname": "src/components/radioGroup/radio.group.js~RadioGroup",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/radioGroup/radio.group.js",
+    "importStyle": "RadioGroup",
+    "description": "RadioGroup component",
+    "lineNumber": 17,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": ""
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "RadioGroup"
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Component"
+    ]
+  },
+  {
+    "__docId__": 111,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultValue",
+    "memberof": "src/components/radioGroup/radio.group.js~RadioGroup",
+    "longname": "src/components/radioGroup/radio.group.js~RadioGroup#_initDefaultValue",
+    "access": null,
+    "description": "",
+    "lineNumber": 22,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 112,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "list",
+    "memberof": "src/components/radioGroup/radio.group.js~RadioGroup",
+    "longname": "src/components/radioGroup/radio.group.js~RadioGroup#list",
+    "access": null,
+    "description": null,
+    "lineNumber": 23,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 113,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_createClassName",
+    "memberof": "src/components/radioGroup/radio.group.js~RadioGroup",
+    "longname": "src/components/radioGroup/radio.group.js~RadioGroup#_createClassName",
+    "access": null,
+    "description": null,
+    "lineNumber": 25,
+    "undocument": true,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 114,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_launch",
+    "memberof": "src/components/radioGroup/radio.group.js~RadioGroup",
+    "longname": "src/components/radioGroup/radio.group.js~RadioGroup#_launch",
+    "access": null,
+    "description": null,
+    "lineNumber": 27,
+    "undocument": true,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 115,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/rangepicker/index.js",
+    "memberof": null,
+    "longname": "src/components/rangepicker/index.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * Rangepicker component entry\n * @author name\n */\n\nimport angular from 'angular';\nimport component from './rangepicker.component';\n\n'use strict';\n\nexport default angular.module('Rangepicker', [])\n  .component('bpRangepicker', component);"
+  },
+  {
+    "__docId__": 116,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/rangepicker/rangepicker.component.js",
+    "memberof": null,
+    "longname": "src/components/rangepicker/rangepicker.component.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Rangepicker component define\n */\n\nimport controller from './rangepicker';\nimport template from './template.html';\n\n'use strict';\n\nlet componentDefine = {\n  template,\n  controller,\n  controllerAs: 'vm',\n  bindings: {\n    ngStartModel: '=',\n    ngEndModel: '=',\n    rangepickerOptions: '<',\n    disabled: '<'\n  }\n};\n\nexport default componentDefine;\n"
+  },
+  {
+    "__docId__": 117,
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "componentDefine",
+    "memberof": "src/components/rangepicker/rangepicker.component.js",
+    "longname": "src/components/rangepicker/rangepicker.component.js~componentDefine",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/rangepicker/rangepicker.component.js",
+    "importStyle": "componentDefine",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 118,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/components/rangepicker/rangepicker.js",
+    "memberof": null,
+    "longname": "src/components/rangepicker/rangepicker.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Rangepicker\n */\n\nimport Component from '../common/component';\n\n\n'use strict';\n\n/**\n * Rangepicker component\n *\n * @export\n * @class Rangepicker\n * @extends {Component}\n */\nexport default class Rangepicker extends Component {\n  constructor() {\n    super();\n    let endTimeOptions = angular.copy(this.rangepickerOptions);\n    this.endTimeOptions = endTimeOptions;\n  }\n\n  /**\n   * @override\n   */\n  _initDefaultValue() {\n\n  }\n\n  /**\n   * @override\n   */\n  _createClassName() {\n  }\n\n  /**\n   * @override\n   */\n  _launch() {\n  }\n}\n"
+  },
+  {
+    "__docId__": 119,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Rangepicker",
+    "memberof": "src/components/rangepicker/rangepicker.js",
+    "longname": "src/components/rangepicker/rangepicker.js~Rangepicker",
+    "access": null,
+    "export": true,
+    "importPath": "anaheim/src/components/rangepicker/rangepicker.js",
+    "importStyle": "Rangepicker",
+    "description": "Rangepicker component",
+    "lineNumber": 17,
+    "unknown": [
+      {
+        "tagName": "@export",
+        "tagValue": ""
+      },
+      {
+        "tagName": "@class",
+        "tagValue": "Rangepicker"
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Component"
+    ]
+  },
+  {
+    "__docId__": 120,
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "src/components/rangepicker/rangepicker.js~Rangepicker",
+    "longname": "src/components/rangepicker/rangepicker.js~Rangepicker#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 18,
+    "undocument": true,
+    "params": [],
+    "generator": false
+  },
+  {
+    "__docId__": 121,
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "endTimeOptions",
+    "memberof": "src/components/rangepicker/rangepicker.js~Rangepicker",
+    "longname": "src/components/rangepicker/rangepicker.js~Rangepicker#endTimeOptions",
+    "access": null,
+    "description": null,
+    "lineNumber": 21,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 122,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_initDefaultValue",
+    "memberof": "src/components/rangepicker/rangepicker.js~Rangepicker",
+    "longname": "src/components/rangepicker/rangepicker.js~Rangepicker#_initDefaultValue",
+    "access": null,
+    "description": "",
+    "lineNumber": 27,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 123,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_createClassName",
+    "memberof": "src/components/rangepicker/rangepicker.js~Rangepicker",
+    "longname": "src/components/rangepicker/rangepicker.js~Rangepicker#_createClassName",
+    "access": null,
+    "description": "",
+    "lineNumber": 34,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 124,
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "_launch",
+    "memberof": "src/components/rangepicker/rangepicker.js~Rangepicker",
+    "longname": "src/components/rangepicker/rangepicker.js~Rangepicker#_launch",
+    "access": null,
+    "description": "",
+    "lineNumber": 40,
+    "params": [],
+    "override": true,
+    "generator": false
+  },
+  {
+    "__docId__": 125,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/stateenum/button.state.js",
+    "memberof": null,
+    "longname": "src/stateenum/button.state.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Button states enumeration\n */\n\nimport angular from 'angular';\nimport CommonState from './common.state';\n\n'use strict';\n\nexport default angular.extend({\n  /**\n   * 加载中状态\n   * @type {String}\n   */\n  LOADING: 'loading'\n  \n}, CommonState);"
+  },
+  {
+    "__docId__": 126,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/stateenum/checkbox.state.js",
+    "memberof": null,
+    "longname": "src/stateenum/checkbox.state.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Checkbox states enumeration\n */\n\nimport angular from 'angular';\nimport CommonState from './common.state';\n\n'use strict';\n\nexport default angular.extend({\n  /**\n   * 选中\n   * \n   * @type {String}\n   */\n  CHECKED: 'checked',\n  /**\n   * 半选状态, 这个集中在做列表全选的时候会出现\n   * 表现是, 选择了但又没有全选这个尴尬的状态\n   * \n   * @type {String}\n   */\n  HALF_CHECKED: 'halfChecked'\n  \n}, CommonState);"
+  },
+  {
+    "__docId__": 127,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/stateenum/common.state.js",
+    "memberof": null,
+    "longname": "src/stateenum/common.state.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * 各个组件都会存在的状态\n */\n\n'use strict';\n\nexport default {\n  /**\n   * \b是否禁用\n   * \n   * @type {string}\n   */\n  DISABLED: 'disabled'\n};\n\n\n"
+  },
+  {
+    "__docId__": 128,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/stateenum/radio.group.state.js",
+    "memberof": null,
+    "longname": "src/stateenum/radio.group.state.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Checkbox states enumeration\n */\n\nimport angular from 'angular';\nimport CommonState from './common.state';\n\n'use strict';\n\nexport default angular.extend({\n\n}, CommonState);"
+  },
+  {
+    "__docId__": 129,
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "src/stateenum/radio.state.js",
+    "memberof": null,
+    "longname": "src/stateenum/radio.state.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 5,
+    "content": "/**\n * Checkbox states enumeration\n */\n\nimport angular from 'angular';\nimport CommonState from './common.state';\n\n'use strict';\n\nexport default angular.extend({\n  \n}, CommonState);"
+  },
+  {
+    "__docId__": 131,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Infinity",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 132,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~NaN",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 133,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~undefined",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 134,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~null",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 135,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Object",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 136,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~object",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 137,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Function",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 138,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~function",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 139,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Boolean",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 140,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~boolean",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 141,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Symbol",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 142,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Error",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 143,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~EvalError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 144,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~InternalError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 145,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RangeError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 146,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ReferenceError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 147,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~SyntaxError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 148,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~TypeError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 149,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~URIError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 150,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Number",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 151,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~number",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 152,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Date",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 153,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~String",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 154,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~string",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 155,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RegExp",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 156,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 157,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int8Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 158,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 159,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8ClampedArray",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 160,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int16Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 161,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint16Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 162,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 163,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 164,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 165,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float64Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 166,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Map",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 167,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Set",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 168,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakMap",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 169,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakSet",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 170,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ArrayBuffer",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 171,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~DataView",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 172,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~JSON",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 173,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Promise",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 174,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Generator",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 175,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~GeneratorFunction",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 176,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Reflect",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 177,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Proxy",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 179,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "CanvasRenderingContext2D",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~CanvasRenderingContext2D",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 180,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "DocumentFragment",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~DocumentFragment",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 181,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Element",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Element",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Element",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 182,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Event",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Event",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Event",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 183,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Node",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Node",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Node",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 184,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "NodeList",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~NodeList",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 185,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "XMLHttpRequest",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~XMLHttpRequest",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 186,
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "AudioContext",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/AudioContext",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~AudioContext",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  }
+]
