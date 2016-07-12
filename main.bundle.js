@@ -170,7 +170,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 'use strict';
 
-exports.default = _angular2.default.module('components', [_angularUiRouter2.default, _index2.default.name, _skin2.default.name, _ui2.default.name, _nav2.default.name]).config(["$stateProvider", function ($stateProvider) {
+exports.default = _angular2.default.module('components', [_angularUiRouter2.default, _index2.default.name, _skin2.default.name, _ui2.default.name, _nav2.default.name]).config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
   'ngInject';
 
   $stateProvider.state('index', {
@@ -183,6 +183,7 @@ exports.default = _angular2.default.module('components', [_angularUiRouter2.defa
     url: '/ui',
     template: '<ui></ui>'
   });
+  $urlRouterProvider.otherwise('/');
 }]);
 
 /***/ },
