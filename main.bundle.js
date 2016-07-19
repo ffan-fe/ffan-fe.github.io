@@ -186,12 +186,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _angular2.default.module('components', [_angularUiRouter2.default, _index2.default.name, _skin2.default.name, _ui2.default.name, _nav2.default.name]).config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
   'ngInject';
 
-  $stateProvider
-  // .state('index', {
-  //   url: '/',
-  //   template: '<index></index>'
-  // })
-  .state('skin', {
+  $stateProvider.state('index', {
+    url: '/',
+    template: '<index></index>'
+  }).state('skin', {
     url: '/skin',
     template: '<skin></skin>'
   }).state('ui', {
