@@ -6,7 +6,9 @@ webpackJsonp([1],[
 /* 4 */,
 /* 5 */,
 /* 6 */,
-/* 7 */
+/* 7 */,
+/* 8 */,
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -20,7 +22,7 @@ exports.push([module.i, "body {\n  background-color: #000e27;\n  overflow: hidde
 
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -34,7 +36,7 @@ exports.push([module.i, "@media screen {\n  #skin_space {\n    left: 0px;\n  }\n
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -48,7 +50,7 @@ exports.push([module.i, "@media screen {\n  #nav {\n    position: fixed;\n    to
 
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -62,7 +64,7 @@ exports.push([module.i, "@media screen {\n  #wrap.skin-wrap {\n    background-co
 
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -70,13 +72,13 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".bs-callout {\n  padding: 20px;\n  margin: 20px 0;\n  border: 1px solid #eee;\n  border-left-width: 5px;\n  border-radius: 3px;\n}\n.bs-callout-info {\n  border-left-color: #1b809e;\n}\n", ""]);
 
 // exports
 
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -90,8 +92,6 @@ exports.push([module.i, "#wrap.ui-wrap {\n  background-color: #09031f;\n}\n#wrap
 
 
 /***/ },
-/* 13 */,
-/* 14 */,
 /* 15 */,
 /* 16 */,
 /* 17 */,
@@ -419,7 +419,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /** nav component controller */
 
-var _gsap = __webpack_require__(14);
+var _gsap = __webpack_require__(16);
 
 var _gsap2 = _interopRequireDefault(_gsap);
 
@@ -544,7 +544,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /** skin component controller */
 
-var _gsap = __webpack_require__(14);
+var _gsap = __webpack_require__(16);
 
 var _gsap2 = _interopRequireDefault(_gsap);
 
@@ -623,11 +623,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _prismjs = __webpack_require__(15);
+var _prismjs = __webpack_require__(5);
 
 var _prismjs2 = _interopRequireDefault(_prismjs);
 
-__webpack_require__(16);
+__webpack_require__(6);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -699,7 +699,7 @@ var _controller = __webpack_require__(58);
 
 var _controller2 = _interopRequireDefault(_controller);
 
-var _anaheim = __webpack_require__(5);
+var _anaheim = __webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -721,11 +721,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _prismjs = __webpack_require__(15);
+var _prismjs = __webpack_require__(5);
 
 var _prismjs2 = _interopRequireDefault(_prismjs);
 
-__webpack_require__(16);
+__webpack_require__(6);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -789,7 +789,7 @@ var _controller = __webpack_require__(60);
 
 var _controller2 = _interopRequireDefault(_controller);
 
-var _anaheim = __webpack_require__(5);
+var _anaheim = __webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -832,20 +832,77 @@ exports.default = {
 
 /***/ },
 /* 63 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _prismjs = __webpack_require__(5);
+
+var _prismjs2 = _interopRequireDefault(_prismjs);
+
+__webpack_require__(6);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var GetStartedController = function GetStartedController() {
-  _classCallCheck(this, GetStartedController);
-};
+var GetStartedController = function () {
+  GetStartedController.$inject = ["$sce"];
+  function GetStartedController($sce) {
+    'ngInject';
+
+    _classCallCheck(this, GetStartedController);
+
+    this.$sce = $sce;
+  }
+
+  _createClass(GetStartedController, [{
+    key: '$onInit',
+    value: function $onInit() {
+      /**
+       * npm 安装
+       */
+      this.part1Html = this.$sce.trustAsHtml(_prismjs2.default.highlight('npm install Anaheim --save', _prismjs2.default.languages.javascript));
+
+      /**
+       * 引用
+       */
+      var usermodule = 'import anaheim from \'anaheim\';\n      angular.module(\'app\', [\n        anaheim.name\n      ])\n      .component(\'app\', AppComponent);';
+      this.part5Html = this.$sce.trustAsHtml(_prismjs2.default.highlight(usermodule, _prismjs2.default.languages.javascript));
+
+      /**
+       * 部分引用
+       */
+      var use2module = 'import {Button,CheckBox} from \'anaheim\';\n      angular.module(\'app\', [\n        Button.name,\n        CheckBox.name\n      ])\n      .component(\'app\', AppComponent);';
+      this.part6Html = this.$sce.trustAsHtml(_prismjs2.default.highlight(use2module, _prismjs2.default.languages.javascript));
+      /**
+       * npm error
+       */
+      var npmError = '\n      npm ERR! Darwin 15.6.0\n      npm ERR! argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "Anaheim" "--save"\n      npm ERR! node v5.10.1\n      npm ERR! npm  v3.8.3\n      npm ERR! code E404\n      \n      npm ERR! 404 Registry returned 404 for GET on https://registry.npmjs.org/Anaheim\n      npm ERR! 404 \n      npm ERR! 404  \'Anaheim\' is not in the npm registry.\n      npm ERR! 404 Your package name is not valid, because \n      npm ERR! 404  1. name can no longer contain capital letters\n      npm ERR! 404 \n      npm ERR! 404 Note that you can also install from a\n      npm ERR! 404 tarball, folder, http url, or git url.\n      \n      npm ERR! Please include the following file with any support request:\n      npm ERR!     /Users/chuxin/workspace/wanda/ffan-fe.github.io.source/npm-debug.log\n      ';
+      this.part2Html = this.$sce.trustAsHtml(_prismjs2.default.highlight(npmError, _prismjs2.default.languages.javascript));
+
+      /**
+       * 切换源
+       */
+      var changeNpm = 'npm config set registry="http://10.213.42.227:11222/"';
+      this.part3Html = this.$sce.trustAsHtml(_prismjs2.default.highlight(changeNpm, _prismjs2.default.languages.javascript));
+      /**
+       * 验证是否切换
+       */
+      var checkedChange = 'npm config get registry';
+      this.part4Html = this.$sce.trustAsHtml(_prismjs2.default.highlight(checkedChange, _prismjs2.default.languages.html));
+    }
+  }]);
+
+  return GetStartedController;
+}();
 
 exports.default = GetStartedController;
 
@@ -885,11 +942,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _prismjs = __webpack_require__(15);
+var _prismjs = __webpack_require__(5);
 
 var _prismjs2 = _interopRequireDefault(_prismjs);
 
-__webpack_require__(16);
+__webpack_require__(6);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -944,7 +1001,7 @@ var _angularUiRouter = __webpack_require__(4);
 
 var _angularUiRouter2 = _interopRequireDefault(_angularUiRouter);
 
-var _anaheim = __webpack_require__(5);
+var _anaheim = __webpack_require__(7);
 
 var _template = __webpack_require__(77);
 
@@ -1004,7 +1061,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _gsap = __webpack_require__(14);
+var _gsap = __webpack_require__(16);
 
 var _gsap2 = _interopRequireDefault(_gsap);
 
@@ -1125,7 +1182,7 @@ module.exports = "<h3>Checkbox</h3>\n<section class=\"example-container\">\n  <b
 /* 76 */
 /***/ function(module, exports) {
 
-module.exports = "<h3>Get started</h3>"
+module.exports = "<h3>快速上手</h3>\n<hr>\n<section class=\"example-container\">\n  <h4>安装 <code>Anaheim</code> 包</h4>\n  <div>\n    <pre>\n      <code class=\"language-javascript\" data-ng-bind-html=\"vm.part1Html\"></code>\n    </pre>\n  </div>\n  <h4>怎么引用</h4>\n  <div>\n    <pre>\n      <code class=\"language-javascript\" data-ng-bind-html=\"vm.part5Html\"></code>\n    </pre>\n  </div>\n  <h4>引用部分模块 如 <code>Button</code> <code>Checkbox</code></h4>\n  <div>\n    <pre>\n      <code class=\"language-javascript\" data-ng-bind-html=\"vm.part6Html\"></code>\n    </pre>\n  </div>\n  <h4>详细使用方法和Demo 请移步</h4>\n  <a target=\"_blank\" href=\"/#/ui/button\"><code>Button</code></a>\n  <a target=\"_blank\" href=\"/#/ui/checkbox\"><code>Checkbox</code></a>\n  <a  target=\"_blank\" href=\"/#/ui/radiobox\"><code>Radiobox</code></a>\n  <hr>\n  <h4>如果安装失败且报类似以下错误(<span style=\"font-size:12px\">请主要关注<code>404</code>部分错误</span>)😢</h4>\n  <div>\n    <pre>\n      <code class=\"language-javascript\" data-ng-bind-html=\"vm.part2Html\"></code>\n    </pre>\n  </div>\n  <h4>请切换源 使用如下命令</h4>\n  <div>\n    <pre>\n      <code class=\"language-javascript\" data-ng-bind-html=\"vm.part3Html\"></code>\n    </pre>\n  </div>\n  <h4>验证是否切换 使用如下命令</h4>\n  <div>\n    <pre>\n      <code class=\"language-javascript\" data-ng-bind-html=\"vm.part4Html\"></code>\n    </pre>\n  </div>\n  <h5>\n    <p>执行完<code> npm config get registry</code>命令后,出现以下地址 <code>http://10.213.42.227:11222/</code> 证明切换源成功</p>\n    <p>ps: 推荐个源管理工具<a target=\"_blank\" href=\"https://www.npmjs.com/package/nrm\"><code>nrm</code></a></p>\n    <p>切换完成后 再回到第一步</p>\n  </h5>\n  <div class=\"bs-callout bs-callout-info\" id=\"callout-glyphicons-location\">\n    <h5>如果安装失败或者使用中有其他疑问请联系<code>fengpeng5@wanda.cn</code></h5>\n  </div>\n</section>"
 
 /***/ },
 /* 77 */
@@ -1142,58 +1199,6 @@ module.exports = "<fancy-nav></fancy-nav>\n<section class=\"content-container\" 
 /***/ },
 /* 79 */,
 /* 80 */
-/***/ function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(7);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(3)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(true) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept(7, function() {
-			var newContent = __webpack_require__(7);
-			if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ },
-/* 81 */
-/***/ function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(8);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(3)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(true) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept(8, function() {
-			var newContent = __webpack_require__(8);
-			if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ },
-/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -1219,7 +1224,7 @@ if(true) {
 }
 
 /***/ },
-/* 83 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -1245,7 +1250,7 @@ if(true) {
 }
 
 /***/ },
-/* 84 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -1271,7 +1276,7 @@ if(true) {
 }
 
 /***/ },
-/* 85 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -1288,6 +1293,58 @@ if(true) {
 	if(!content.locals) {
 		module.hot.accept(12, function() {
 			var newContent = __webpack_require__(12);
+			if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ },
+/* 84 */
+/***/ function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(13);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(true) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept(13, function() {
+			var newContent = __webpack_require__(13);
+			if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ },
+/* 85 */
+/***/ function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(14);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(true) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept(14, function() {
+			var newContent = __webpack_require__(14);
 			if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
 			update(newContent);
 		});
