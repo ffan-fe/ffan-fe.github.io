@@ -37,7 +37,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "checkbox",
       "shortDescription": "包装了HTML Input[type=&quot;checkbox&quot;]",
-      "keywords": "api binding checkbox checked directive disabled enable falsevalue fengpeng halfchecked input ng-false-value ng-true-value symbol truevalue"
+      "keywords": "api binding change checkbox checked click directive disabled enable event falsevalue fengpeng halfchecked input ng-false-value ng-true-value onchange onclick symbol truevalue"
     },
     {
       "section": "api",
@@ -50,12 +50,21 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "citySelector.service:citySelector",
+      "shortName": "citySelector",
+      "type": "service",
+      "moduleName": "citySelector",
+      "shortDescription": "城市选择组件, 统一从接口/Database/coupon_component/selectCity",
+      "keywords": "api array boolean bootstrap checkedlist cityselector config console database datebase fengpeng idlist isreadonly log nginject open promise reject resolve service showcityselector ui uibmodal"
+    },
+    {
+      "section": "api",
       "id": "radiobox.directive:bpRadio",
       "shortName": "bpRadio",
       "type": "directive",
       "moduleName": "radiobox",
-      "shortDescription": "包装了Input[type=&quot;radio&quot;]",
-      "keywords": "api binding checked chuxin complex directive disabled enable false github input io model radio radiobox string symbol vm"
+      "shortDescription": "包装了HTML Input[type=&quot;radio&quot;]",
+      "keywords": "api binding checked chuxin complex directive disabled enable github html input io list model object radio radiobox symbol vm"
     },
     {
       "section": "api",
@@ -64,16 +73,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "radiobox",
       "shortDescription": "对radiobox的二次包装 提供list指令",
-      "keywords": "age api binding checked chuxin complex controller directive disabled enable false github groupdatalist inline io list model radio radiobox radioboxgroup sex symbol true vm xxx"
-    },
-    {
-      "section": "api",
-      "id": "transfer.directive:bpTransfer",
-      "shortName": "bpTransfer",
-      "type": "directive",
-      "moduleName": "transfer",
-      "shortDescription": "",
-      "keywords": "add-all-btn add-btn addallbtn addbtn api binding chuxin datasource del-all-btn del-btn delallbtn delbtn directive false github io key nnn operations placeholders serversearch showleft-search showleftsearch showright-search showrightsearch source-data sourcedata storename symbol targetdata testing titles transfer true vm"
+      "keywords": "age api binding checked chuxin complex controller directive disabled enable github groupdatalist html inline io list model radiobox sex symbol true vm xxx"
     }
   ],
   "apis": {
